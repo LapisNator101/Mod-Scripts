@@ -1,0 +1,41 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+
+//Applies the scala plugin
+apply plugin: 'scala'
+//applies the forge plugin
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+minecraft {
+    version = "1.16.5-36.0.13"
+    runDir = "run"
+    mappings = 'stable_39'
+    replace "@MAJOR@", version_major
+    replace "@MINOR@", version_minor
+    replace "@REVIS@", version_revis
+    replace "@BUILD@", project.getBuildNumber()
+    replace "@MC@", minecraft.version
+}
+
+println "Current Minecraft version = " + minecraft.version + "-" + minecraft.forgeVersion
+
+//Prints your current dependencies to a file.
+task printDependencies {
+    //dumpes what the project was compiled with into a text file.
+    doLast {
+         file("CompiledWith.txt").text = configurations.compile.collect { it.getName() };
+     }
+     mustRunAfter "setupDecompWorkspace"
+     mustRunAfter "setupDevWorkspace"
+     mustRunAfter "setupCiWorkspace"
+}
+
+tasks.build.dependsOn printDependencies
