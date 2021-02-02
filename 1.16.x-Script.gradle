@@ -9,11 +9,6 @@ buildscript {
 }
 
 
-//Applies the scala plugin
-apply plugin: 'scala'
-//applies the forge plugin
-apply plugin: 'net.minecraftforge.gradle.forge'
-
 minecraft {
     version = "1.16.5-36.0.13"
     runDir = "run"
